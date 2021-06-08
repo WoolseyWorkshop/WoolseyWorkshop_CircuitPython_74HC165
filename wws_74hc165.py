@@ -47,7 +47,7 @@ class DigitalInOut:
     """
 
     def __init__(self, pin_number, shift_register_74hc165):
-        """Specify the pin number of the shift register (0...7) and
+        """Specify the pin number of the shift register (0...7) and the
         ShiftRegister74HC165 instance.
         """
         self._pin = pin_number
@@ -106,7 +106,7 @@ class DigitalInOut:
 
 
 class ShiftRegister74HC165:
-    """Initialise the 74HC165 on specified SPI bus
+    """Initialize the 74HC165 on the specified SPI bus
     and indicate the number of shift registers being used.
     """
 
