@@ -40,10 +40,10 @@ __repo__ = (
 
 
 class DigitalInOut:
-    """Digital input/output of the 74HC165.  The interface is exactly the
-    same as the ``digitalio.DigitalInOut`` class, however note that by design
-    this device is INPUT ONLY!  Attempting to write outputs or set
-    direction as output will raise an exception.
+    """Digital input/output of the 74HC165.  The interface is exactly the same
+    as the ``digitalio.DigitalInOut`` class, however note that by design this
+    device is INPUT ONLY!  Attempting to write outputs or set direction as
+    output will raise an exception.
     """
 
     def __init__(self, pin_number, shift_register_74hc165):
@@ -62,7 +62,7 @@ class DigitalInOut:
     # pylint: disable=unused-argument
     def switch_to_output(self, value=False, **kwargs):  # pylint: disable=no-self-use
         """``switch_to_output`` is not supported."""
-        raise RuntimeError("Digital output not supported.")
+        raise RuntimeError("Digital output is not supported.")
 
     def switch_to_input(self, **kwargs):
         """``DigitalInOut switch_to_input``"""
@@ -80,7 +80,7 @@ class DigitalInOut:
     @value.setter
     def value(self, val):  # pylint: disable=no-self-use
         """``value`` setting is not supported."""
-        raise RuntimeError("Setting value not supported.")
+        raise RuntimeError("Setting value is not supported.")
 
     @property
     def direction(self):
@@ -91,23 +91,23 @@ class DigitalInOut:
     def direction(self, val):  # pylint: disable=no-self-use
         """``Direction`` can only be set to ``INPUT``."""
         if val != digitalio.Direction.INPUT:
-            raise RuntimeError("Digital output not supported.")
+            raise RuntimeError("Digital output is not supported.")
 
     @property
     def pull(self):
-        """Pull-up/down not supported, return None for no pull-up/down."""
+        """Pull-up/down is not supported, return None for no pull-up/down."""
         return None
 
     @pull.setter
     def pull(self, val):  # pylint: disable=no-self-use
         """Only supports null/no pull state."""
         if val is not None:
-            raise RuntimeError("Pull-up and pull-down not supported.")
+            raise RuntimeError("Pull-up and pull-down is not supported.")
 
 
 class ShiftRegister74HC165:
-    """Initialize the 74HC165 on the specified SPI bus
-    and indicate the number of shift registers being used.
+    """Initialize the 74HC165 on the specified SPI bus and indicate the number
+    of shift registers being used.
     """
 
     def __init__(self, spi, latch, number_of_shift_registers=1):
@@ -124,10 +124,11 @@ class ShiftRegister74HC165:
 
     @property
     def gpio(self):
-        """The raw GPIO input register.  Each bit represents the
-        input value of the associated pin (0 = low, 1 = high).
+        """The raw GPIO input register.  Each bit represents the input value of
+        the associated pin (0 = low, 1 = high).
         """
-        # Manage latch (chip select) separately since it's values needs to be set in reverse
+        # Manage latch (chip select) separately since it's values needs to be
+        # set in reverse.
         self._latch.value = True
         with self._device as spi:
             # pylint: disable=no-member
@@ -138,7 +139,7 @@ class ShiftRegister74HC165:
     @gpio.setter
     def gpio(self, val):  # pylint: disable=no-self-use
         """``gpio`` setting is not supported."""
-        raise RuntimeError("Setting gpio not supported.")
+        raise RuntimeError("Setting gpio is not supported.")
 
     def get_pin(self, pin):
         """Convenience function to create an instance of the DigitalInOut class
