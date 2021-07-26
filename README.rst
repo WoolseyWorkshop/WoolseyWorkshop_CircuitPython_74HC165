@@ -77,7 +77,7 @@ Usage Example
         print(f"pin 1 = {pin1.value}")
         time.sleep(1)
 
-Also see the `Adding Digital I/O To Your CircuitPython Compatible Board: Part 2 - The 74HC165 <https://www.woolseyworkshop.com/2021/07/02/adding-digital-io-to-your-circuitpython-compatible-board-part-2-the-74hc165/>`_ tutorial on `WoolseyWorkshop.com <https://www.woolseyworkshop.com>`_ for additiona usage information.
+Also see the `Adding Digital I/O To Your CircuitPython Compatible Board: Part 2 - The 74HC165 <https://www.woolseyworkshop.com/2021/07/02/adding-digital-io-to-your-circuitpython-compatible-board-part-2-the-74hc165/>`_ tutorial on `WoolseyWorkshop.com <https://www.woolseyworkshop.com>`_ for additional usage information.
 
 
 Contributing
