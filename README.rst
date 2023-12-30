@@ -1,10 +1,11 @@
 Introduction
 ============
+
 .. image:: https://readthedocs.org/projects/woolseyworkshop-circuitpython-74hc165/badge/?version=latest
     :target: https://woolseyworkshop-circuitpython-74hc165.readthedocs.io/
     :alt: Documentation Status
 
-.. image:: https://img.shields.io/discord/327254708534116352.svg
+.. image:: https://raw.githubusercontent.com/adafruit/Adafruit_CircuitPython_Bundle/main/badges/adafruit_discord.svg
     :target: https://adafru.it/discord
     :alt: Discord
 
@@ -18,7 +19,6 @@ Introduction
 
 CircuitPython driver for 74HC165 shift register.
 
-
 Dependencies
 ============
 This driver depends on:
@@ -28,16 +28,13 @@ This driver depends on:
 
 Please ensure all dependencies are available on the CircuitPython filesystem.
 This is easily achieved by downloading
-`the Adafruit library and driver bundle <https://circuitpython.org/libraries>`_
-or individual libraries can be installed using
-`circup <https://github.com/adafruit/circup>`_.
-
+`the Adafruit library and driver bundle <https://github.com/adafruit/Adafruit_CircuitPython_Bundle>`_.
 
 Installing from PyPI
 ====================
+
 On supported GNU/Linux systems like the Raspberry Pi, you can install the driver locally `from
-PyPI <https://pypi.org/project/woolseyworkshop-circuitpython-74hc165/>`_.
-To install for current user:
+PyPI <https://pypi.org/project/woolseyworkshop-circuitpython-74hc165/>`_. To install for current user:
 
 .. code-block:: shell
 
@@ -54,13 +51,14 @@ To install in a virtual environment in your current project:
 .. code-block:: shell
 
     mkdir project-name && cd project-name
-    python3 -m venv .env
-    source .env/bin/activate
+    python3 -m venv .venv
+    source .venv/bin/activate
     pip3 install woolseyworkshop-circuitpython-74hc165
 
 
 Usage Example
 =============
+
 .. code-block:: python
 
     import time
@@ -79,15 +77,16 @@ Usage Example
 
 Also see the `Adding Digital I/O To Your CircuitPython Compatible Board: Part 2 - The 74HC165 <https://www.woolseyworkshop.com/2021/07/02/adding-digital-io-to-your-circuitpython-compatible-board-part-2-the-74hc165/>`_ tutorial on `WoolseyWorkshop.com <https://www.woolseyworkshop.com>`_ for additional usage information.
 
+Documentation
+=============
+
+API documentation for this library can be found on `Read the Docs <https://woolseyworkshop-circuitpython-74hc165.readthedocs.io>`_.
+
+For information on building library documentation, please check out `this guide <https://learn.adafruit.com/creating-and-sharing-a-circuitpython-library/sharing-our-docs-on-readthedocs#sphinx-5-1>`_.
 
 Contributing
 ============
+
 Contributions are welcome! Please read our `Code of Conduct
-<https://github.com/WoolseyWorkshop/WoolseyWorkshop_CircuitPython_74HC165/blob/HEAD/CODE_OF_CONDUCT.md>`_
+<https://github.com/WoolseyWorkshop/WoolseyWorkshop_CircuitPython_74HC165/blob/main/CODE_OF_CONDUCT.md>`_
 before contributing to help this project stay welcoming.
-
-
-Documentation
-=============
-For information on building library documentation, please check out
-`this guide <https://learn.adafruit.com/creating-and-sharing-a-circuitpython-library/sharing-our-docs-on-readthedocs#sphinx-5-1>`_.

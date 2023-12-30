@@ -5,4 +5,4 @@
 .. use this format as the module name: "adafruit_foo.foo"
 
 .. automodule:: wws_74hc165
-    :members:
+   :members:
