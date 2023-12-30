@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2017 Scott Shawcroft, written for Adafruit Industries
-# SPDX-FileCopyrightText: Copyright (c) 2021 John Woolsey for Woolsey Workshop
+# SPDX-FileCopyrightText: 2021 John Woolsey for Woolsey Workshop
 #
 # SPDX-License-Identifier: MIT
 
@@ -29,11 +29,18 @@ Based on Adafruit_CircuitPython_74HC595 driver library.
 """
 
 
-# Imports
 import digitalio
-import adafruit_bus_device.spi_device as spi_device
+from adafruit_bus_device import spi_device
 
-__version__ = "0.0.0-auto.0"
+try:
+    import typing  # pylint: disable=unused-import
+    from microcontroller import Pin
+    import busio
+    from circuitpython_typing import ReadableBuffer
+except ImportError:
+    pass
+
+__version__ = "0.0.0+auto.0"
 __repo__ = (
     "https://github.com/WoolseyWorkshop/WoolseyWorkshop_CircuitPython_74HC165.git"
 )
@@ -46,7 +53,14 @@ class DigitalInOut:
     output will raise an exception.
     """
 
-    def __init__(self, pin_number, shift_register_74hc165):
+    _pin: Pin
+    _byte_pos: int
+    _byte_pin: int
+    _shift_register: "ShiftRegister74HC165"
+
+    def __init__(
+        self, pin_number: Pin, shift_register_74hc165: "ShiftRegister74HC165"
+    ) -> None:
         """Specify the pin number of the shift register (0...7) and the
         ShiftRegister74HC165 instance.
         """
@@ -60,75 +74,89 @@ class DigitalInOut:
     # is unused by this class).  Do not remove them, instead turn off pylint
     # in this case.
     # pylint: disable=unused-argument
-    def switch_to_output(self, value=False, **kwargs):  # pylint: disable=no-self-use
+    def switch_to_output(  # pylint: disable=no-self-use
+        self, value: bool = False, **kwargs
+    ) -> None:
         """``switch_to_output`` is not supported."""
         raise RuntimeError("Digital output is not supported.")
 
-    def switch_to_input(self, **kwargs):
+    def switch_to_input(self, **kwargs) -> None:
         """``DigitalInOut switch_to_input``"""
         self.direction = digitalio.Direction.INPUT
 
     # pylint: enable=unused-argument
 
     @property
-    def value(self):
+    def value(self) -> bool:
         """The value of the pin, either True for high or False for low."""
         return self._shift_register.gpio[self._byte_pos] & (1 << self._byte_pin) == (
             1 << self._byte_pin
         )
 
     @value.setter
-    def value(self, val):  # pylint: disable=no-self-use
+    def value(self, val: bool) -> None:  # pylint: disable=no-self-use
         """``value`` setting is not supported."""
         raise RuntimeError("Setting value is not supported.")
 
     @property
-    def direction(self):
+    def direction(self) -> digitalio.Direction.INPUT:
         """``Direction`` can only be set to ``INPUT``."""
         return digitalio.Direction.INPUT
 
     @direction.setter
-    def direction(self, val):  # pylint: disable=no-self-use
+    def direction(  # pylint: disable=no-self-use
+        self, val: digitalio.Direction.INPUT
+    ) -> None:
         """``Direction`` can only be set to ``INPUT``."""
         if val != digitalio.Direction.INPUT:
             raise RuntimeError("Digital output is not supported.")
 
     @property
-    def pull(self):
+    def pull(self) -> None:
         """Pull-up/down is not supported, return None for no pull-up/down."""
         return None
 
     @pull.setter
-    def pull(self, val):  # pylint: disable=no-self-use
+    def pull(self, val: None) -> None:  # pylint: disable=no-self-use
         """Only supports null/no pull state."""
         if val is not None:
-            raise RuntimeError("Pull-up and pull-down is not supported.")
+            raise RuntimeError("Pull-up and pull-down are not supported.")
 
 
 class ShiftRegister74HC165:
-    """Initialize the 74HC165 on the specified SPI bus and indicate the number
-    of shift registers being used.
+    """Initialize the 74HC165 on the specified SPI bus, indicate the
+    number of shift registers being used, and the optional baudrate.
     """
 
-    def __init__(self, spi, latch, number_of_shift_registers=1):
-        self._device = spi_device.SPIDevice(spi, baudrate=1000000)
+    _device: spi_device.SPIDevice
+    _number_of_shift_registers: int
+    _gpio: ReadableBuffer
+
+    def __init__(
+        self,
+        spi: busio.SPI,
+        latch: digitalio.DigitalInOut,
+        number_of_shift_registers: int = 1,
+        baudrate: int = 1000000,
+    ) -> None:
+        self._device = spi_device.SPIDevice(spi, latch, baudrate=baudrate)
         self._latch = latch
         self._latch.direction = digitalio.Direction.OUTPUT
         self._number_of_shift_registers = number_of_shift_registers
         self._gpio = bytearray(self._number_of_shift_registers)
 
     @property
-    def number_of_shift_registers(self):
+    def number_of_shift_registers(self) -> int:
         """The number of shift register chips."""
         return self._number_of_shift_registers
 
     @property
-    def gpio(self):
+    def gpio(self) -> ReadableBuffer:
         """The raw GPIO input register.  Each bit represents the input value of
         the associated pin (0 = low, 1 = high).
         """
-        # Manage latch (chip select) separately since it's values needs to be
-        # set in reverse.
+        # Manage the latch (chip select) separately since it's values needs to
+        # be set in reverse.
         self._latch.value = True
         with self._device as spi:
             # pylint: disable=no-member
@@ -137,11 +165,11 @@ class ShiftRegister74HC165:
         return self._gpio
 
     @gpio.setter
-    def gpio(self, val):  # pylint: disable=no-self-use
+    def gpio(self, val: ReadableBuffer) -> None:  # pylint: disable=no-self-use
         """``gpio`` setting is not supported."""
         raise RuntimeError("Setting gpio is not supported.")
 
-    def get_pin(self, pin):
+    def get_pin(self, pin: int) -> DigitalInOut:
         """Convenience function to create an instance of the DigitalInOut class
         pointing at the specified pin of this 74HC165 device.
         """

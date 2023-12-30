@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2017 Scott Shawcroft, written for Adafruit Industries
-# SPDX-FileCopyrightText: Copyright (c) 2021 John Woolsey for Woolsey Workshop
+# SPDX-FileCopyrightText: 2021 John Woolsey for Woolsey Workshop
 #
-# SPDX-License-Identifier: Unlicense
+# SPDX-License-Identifier: MIT
 
 
 import time
