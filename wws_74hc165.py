@@ -139,7 +139,7 @@ class ShiftRegister74HC165:
         number_of_shift_registers: int = 1,
         baudrate: int = 1000000,
     ) -> None:
-        self._device = spi_device.SPIDevice(spi, latch, baudrate=baudrate)
+        self._device = spi_device.SPIDevice(spi, baudrate=baudrate)
         self._latch = latch
         self._latch.direction = digitalio.Direction.OUTPUT
         self._number_of_shift_registers = number_of_shift_registers
